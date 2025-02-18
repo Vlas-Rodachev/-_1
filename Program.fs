@@ -1,36 +1,46 @@
 ﻿open System
 
 let rec vvod_znach_f (mes:string) = 
-    printf "%s: " mes
-    let str = Console.ReadLine()
-    match Double.TryParse(str) with
-    | (true, value) -> Some value
-    | _ -> vvod_znach_f (mes)
+    printf "%s: " mes  // вывод сообщения для контекста вводимой информации
+    let str = Console.ReadLine()  // ввод строки
+    match Double.TryParse(str) with  // проверка на то является ли строка числом
+    | (true, value) -> Some value  // если да то возвращается значение типа float option
+    | _ ->     // иначе заново просим ввести значение
+        printfn "Неверный ввод!!!!!"
+        vvod_znach_f (mes)
 
 let rec vvod_znach_i (mes:string) = 
-    printf "%s: " mes
-    let str = Console.ReadLine()
-    match Int32.TryParse(str) with
-    | (true, value) -> Some value
-    | _ -> vvod_znach_i(mes)
+    printf "%s: " mes  // вывод сообщения для контекста вводимой информации
+    let str = Console.ReadLine()  // ввод строки
+    match Int32.TryParse(str) with  // проверка на то является ли строка числом
+    | (true, value) -> Some value  // если да то возвращается значение типа int option
+    | _ ->   // иначе заново просим ввести значение
+        printfn "Неверный ввод!!!!!"
+        vvod_znach_i(mes)
 
-let print_fun (p:int) mes = 
+let print_fun (p:int) mes =   // функция вывода строки или значения, если первый параметр 1, то вывод без переноса строки, иначе с переносом 
     if p = 1 then 
         printf $"{mes} "
     else 
         printfn $"{mes} "
 
 
-(*// задание 1
-let x = vvod_znach_i("Введите количество вводимых чисел").Value
-let list1 = [for i in 1 .. x -> if (vvod_znach_i("Введите значение").Value % 2) = 1 then true
-                                else false]
-
-printf "%A" list1*)
+let zap_spisok () = 
+    let n = vvod_znach_i("Введите количество элементов").Value
+    let sp = [for i in 1..n do vvod_znach_i("Введите значение").Value]  
+    sp
 
 
-(*// задание 2
-let x = vvod_znach_i("Введите число").Value
+
+// задание 1
+let fu1 () = 
+    let x = vvod_znach_i("Введите количество вводимых чисел").Value
+    let list1 = [for i in 1 .. x -> if (vvod_znach_i("Введите значение").Value % 2) = 1 then true
+                                    else false]
+    printf "%A" list1
+
+
+// задание 2
 
 let rec fu n list=
     if n % 10 <> 0 then
@@ -39,9 +49,10 @@ let rec fu n list=
     else 
         list
 
-let list3 = []
-let list2 = fu x []
-printfn "%A" list2*)
+let fu2 () = 
+    let x = vvod_znach_i("Введите число").Value
+    let list2 = fu x []
+    printfn "%A" list2
 
 
 //задание 3
@@ -78,24 +89,73 @@ let rec select_el i l =
     | 0, x::xs -> x
     | i, x::xs -> select_el (i - 1) xs
     | i, [] -> -1
+
+let rec fu3 list4 = 
+    print_fun 1 "Данный список: "
+    printfn "%A" list4
+    print_fun 2 "1 - добавление элемента в начало списка"
+    print_fun 2 "2 - удаление элемента по индексу"
+    print_fun 2 "3 - поиск элемента, возвращает индекс"
+    print_fun 2 "4 - соединение списков"
+    print_fun 2 "5 - возвращает значение по индексу"
+    print_fun 2 "0 - Выход"
+    match vvod_znach_i("Ведите номер функции").Value with
+    | 1 -> 
+        let x = vvod_znach_i("Ведите значение добавляемого элемента").Value
+        let list5 = add_el x list4
+        printfn "%A" list5
+        print_fun 2 ""
+        fu3 list4
+    | 2 -> 
+        let list5 = del_el (vvod_znach_i("Ведите индекс удаляемого элемента").Value) list4
+        printfn "%A" list5
+        print_fun 2 ""
+        fu3 list4
+    | 3 -> 
+        let list5 = find_el (vvod_znach_i("Ведите значение искомого элемента").Value) list4
+        printfn $"{list5}"
+        print_fun 2 ""
+        fu3 list4
+    | 4 -> 
+        let list5 = scep_two_list list4 list4
+        printfn "%A" list5
+        print_fun 2 ""
+        fu3 list4
+    | 5 -> 
+        let list5 = select_el (vvod_znach_i("Ведите индекс элемента").Value) list4
+        printfn $"{list5}"
+        print_fun 2 ""
+        fu3 list4
+    | 0 -> ()
+
                                                                                     
        
-print_fun 1 "Начальный список:"
-let list4 = [1; 2; 4; 5]
-let list5 = add_el 3 list4
-printfn "%A" list4
-print_fun 1 "Добавили значение в начало:"
-printfn "%A" list5
-let list6 = del_el 4 list5
-print_fun 1 "Удаление элемента:"
-printfn "%A" list6
-
-print_fun 1 "поиск элемента 3 (его индекс):"
-printfn "%d" (find_el 3 list6)
-
-print_fun 1 "соединение списков:"
-let list7 = scep_two_list list6 list5
-printfn "%A" list7
-
-print_fun 1 "получение элемента по индексу (1):"
-printfn "%d" (select_el 1 list7)
+let rec fuuuuuu () = 
+    print_fun 2 "1 - Сформировать список из значений true и false"
+    print_fun 2 "2 - Сформировать список из цифр числа"
+    print_fun 2 "3 - Создайте собственные функции для выполнения основных операций над списками"
+    print_fun 2 "0 - Выход"
+    match vvod_znach_i("Ведите номер задания").Value with
+    | 1 -> 
+        fu1()
+        print_fun 2 ""
+        print_fun 2 ""
+        fuuuuuu ()
+    | 2 -> 
+        fu2()
+        print_fun 2 ""
+        print_fun 2 ""
+        fuuuuuu ()
+    | 3 -> 
+        let list4 = zap_spisok ()
+        fu3 list4
+        print_fun 2 ""
+        print_fun 2 ""
+        fuuuuuu ()
+    | 0 -> ()
+    | _ -> 
+        print_fun 2 ""
+        print_fun 2 ""
+        fuuuuuu ()
+    
+fuuuuuu ()
