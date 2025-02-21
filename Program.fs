@@ -18,6 +18,15 @@ let rec vvod_znach_i (mes:string) =
         printfn "Неверный ввод!!!!!"
         vvod_znach_i(mes)
 
+let rec vvod_znach_s (mes:string) = 
+    printf "%s: " mes  // вывод сообщения для контекста вводимой информации
+    let str = Console.ReadLine()  // ввод строки
+    match Double.TryParse(str) with  // проверка на то является ли строка числом
+    | (true, value) -> Some str  // если да то возвращается значение типа float option
+    | _ ->     // иначе заново просим ввести значение
+        printfn "Неверный ввод!!!!!"
+        vvod_znach_s (mes)
+
 let print_fun (p:int) mes =   // функция вывода строки или значения, если первый параметр 1, то вывод без переноса строки, иначе с переносом 
     if p = 1 then 
         printf $"{mes} "
@@ -42,16 +51,13 @@ let fu1 () =
 
 // задание 2
 
-let rec fu n list=
-    if n % 10 <> 0 then
-        let list1 = n % 10 :: list
-        fu (n / 10) list1
-    else 
-        list
+let rec fu n =
+    let list = [for i in n do if i <> ',' && i <> '-' then int(i) - 48]
+    list
 
 let fu2 () = 
-    let x = vvod_znach_i("Введите число").Value
-    let list2 = fu x []
+    let x = vvod_znach_s("Введите число").Value
+    let list2 = fu x
     printfn "%A" list2
 
 
