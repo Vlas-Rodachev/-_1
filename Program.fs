@@ -34,30 +34,39 @@ let print_fun (p:int) mes =   // функция вывода строки или
         printfn $"{mes} "
 
 
-let zap_spisok () = 
-    let n = vvod_znach_i("Введите количество элементов").Value
-    let sp = [for i in 1..n do vvod_znach_i("Введите значение").Value]  
-    sp
+let rec zap_spisok listt = 
+    let x = vvod_znach_i("Введите значение").Value
+    if x = 0 then 
+        listt
+    else 
+        let list1 = zap_spisok listt
+        x::list1
 
 
 
 // задание 1
+let rec ff listt = 
+    let x = vvod_znach_i("Введите значение").Value
+    if x = 0 then 
+        listt
+    else 
+        let list1 = ff listt
+        if x % 2 = 0 then
+            false::list1
+        else
+            true::list1
+
+
 let fu1 () = 
-    let x = vvod_znach_i("Введите количество вводимых чисел").Value
-    let list1 = [for i in 1 .. x -> if (vvod_znach_i("Введите значение").Value % 2) = 1 then true
-                                    else false]
+    let list1 = ff []
     printf "%A" list1
 
 
 // задание 2
 
-let rec fu n =
-    let list = [for i in n do if i <> ',' && i <> '-' then int(i) - 48]
-    list
-
 let fu2 () = 
     let x = vvod_znach_s("Введите число").Value
-    let list2 = fu x
+    let list2 = [for i in x do if i <> ',' && i <> '-' then int(i) - 48]
     printfn "%A" list2
 
 
@@ -123,7 +132,9 @@ let rec fu3 list4 =
         print_fun 2 ""
         fu3 list4
     | 4 -> 
-        let list5 = scep_two_list list4 list4
+        print_fun 2 "Введите значения второго списка"
+        let list44 = zap_spisok []
+        let list5 = scep_two_list list4 list44
         printfn "%A" list5
         print_fun 2 ""
         fu3 list4
@@ -153,7 +164,8 @@ let rec fuuuuuu () =
         print_fun 2 ""
         fuuuuuu ()
     | 3 -> 
-        let list4 = zap_spisok ()
+        print_fun 2 "Введите значения списка"
+        let list4 = zap_spisok []
         fu3 list4
         print_fun 2 ""
         print_fun 2 ""
